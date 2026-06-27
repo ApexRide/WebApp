@@ -1,0 +1,188 @@
+/* ==========================================================================
+   Apex Ride — global styles
+   Theme is driven by a `data-theme` attribute on <html> (light | dark).
+   Direction/fonts are driven by the `dir` attribute (ltr | rtl).
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+}
+
+/* --- Theme tokens ------------------------------------------------------- */
+:root,
+[data-theme="light"] {
+  --font-display: var(--font-space), sans-serif;
+  --font-body: var(--font-manrope), sans-serif;
+  --bg: #f6f2ec;
+  --bg2: #ece5db;
+  --surface: #ffffff;
+  --surface2: #fbf8f3;
+  --ink: #17120e;
+  --ink2: #6a6258;
+  --line: rgba(23, 18, 14, 0.11);
+  --accent: #f23a2f;
+  --accent2: #ffb300;
+  --on-accent: #ffffff;
+  --shadow: rgba(23, 18, 14, 0.14);
+  --glass: rgba(255, 255, 255, 0.66);
+}
+
+[data-theme="dark"] {
+  --bg: #13100e;
+  --bg2: #1d1916;
+  --surface: #1e1a16;
+  --surface2: #252019;
+  --ink: #f6f1e9;
+  --ink2: #a79e91;
+  --line: rgba(255, 255, 255, 0.12);
+  --accent: #ff4b3e;
+  --accent2: #ffc23a;
+  --on-accent: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.6);
+  --glass: rgba(25, 21, 18, 0.6);
+}
+
+/* Arabic gets its own type pairing. */
+[dir="rtl"] {
+  --font-display: var(--font-cairo), sans-serif;
+  --font-body: var(--font-tajawal), sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  transition: background 0.45s ease, color 0.45s ease;
+  /* `clip` (not `hidden`) avoids creating a scroll container, so the sticky
+     header keeps working while stray overflow can't cause sideways scroll. */
+  overflow-x: clip;
+}
+
+/* --- Animations -------------------------------------------------------- */
+@keyframes vc-fadeUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes vc-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-22px); }
+}
+@keyframes vc-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes vc-rise {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Scroll-reveal using the modern scroll-driven animation timeline where
+   supported; degrades gracefully to "always visible" elsewhere. */
+@supports (animation-timeline: view()) {
+  [data-reveal] {
+    animation: vc-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 4% cover 20%;
+  }
+}
+
+select option {
+  color: #111;
+}
+
+/* --- Hover/interaction utilities (inline styles can't express :hover) --- */
+.vc-lift { transition: transform 0.2s ease; }
+.vc-lift:hover { transform: translateY(-2px); }
+.vc-lift-sm { transition: transform 0.2s ease, box-shadow 0.25s ease; }
+.vc-lift-sm:hover { transform: translateY(-1px); }
+.vc-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.vc-card:hover { transform: translateY(-4px); box-shadow: 0 26px 50px -28px var(--shadow); }
+.vc-soft { transition: background 0.2s ease; }
+.vc-soft:hover { background: var(--bg2); }
+.vc-link { transition: color 0.2s ease; }
+.vc-link:hover { color: var(--accent); }
+.vc-swap { transition: transform 0.25s ease; }
+.vc-swap:hover { transform: rotate(180deg); }
+
+/* --- Accessibility ----------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.vc-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.vc-skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 200;
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.vc-skip-link:focus {
+  top: 12px;
+}
+
+/* --- Responsive header + layout --------------------------------------- */
+/* Desktop-first: inline header controls show by default, mobile menu hidden. */
+.vc-desktop-flex { display: flex; align-items: center; }
+.vc-desktop-inline { display: inline-flex; }
+.vc-mobile-flex { display: none; }
+
+/* Footer columns collapse as the viewport narrows. */
+.vc-footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+
+@media (max-width: 960px) {
+  /* Swap the inline nav for the hamburger menu. */
+  .vc-desktop-flex,
+  .vc-desktop-inline { display: none !important; }
+  .vc-mobile-flex { display: flex !important; }
+}
+
+@media (min-width: 961px) {
+  /* Never show the mobile dropdown on desktop (e.g. after a resize). */
+  .vc-mobile-menu { display: none !important; }
+}
+
+@media (max-width: 760px) {
+  .vc-footer-grid { grid-template-columns: 1fr 1fr; gap: 28px 24px; }
+}
+@media (max-width: 440px) {
+  .vc-footer-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

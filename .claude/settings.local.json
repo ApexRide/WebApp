@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk '{ print NR\": \"length\\($0\\) }' \"Volt Cabs.html\")",
+      "Bash(sort -t: -k2 -rn)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Read(//tmp/**)",
+      "Bash(curl -s http://localhost:3210/en)",
+      "Bash(curl -s http://localhost:3210/en/contact)",
+      "Bash(curl -s -o /dev/null -w \"og:%{http_code} type:%{content_type}\\\\n\" http://localhost:3210/opengraph-image)",
+      "Bash(curl -s -o /dev/null -w \"apple:%{http_code} type:%{content_type}\\\\n\" http://localhost:3210/apple-icon)",
+      "Bash(curl -s -o /dev/null -w \"manifest:%{http_code}\\\\n\" http://localhost:3210/manifest.webmanifest)",
+      "Bash(curl -s http://localhost:3210/ar/fleet)",
+      "Bash(pkill -f \"next start\")",
+      "Bash(pkill -f \"next-server\")"
+    ]
+  }
+}
