@@ -10,7 +10,10 @@ before making changes.
 at the repo root as the original design reference) into a production Next.js app.
 
 Single source of truth for everything a non-developer changes (company name,
-contact details, fares) is **environment variables** — see `.env.example`.
+contact details, fares, social links) is **`src/config/site.json`**, read
+through the typed `src/config/site.ts` accessor. Environment variables are
+reserved for environment-specific/sensitive values (only `NEXT_PUBLIC_SITE_URL`
+today) — see `.env.example`.
 
 ## Stack
 
@@ -63,7 +66,8 @@ src/
     sections/              # Hero, Marquee, Band, HowItWorks, Fleet, Coverage,
                            # Reviews, Cta, Contact, Footer, SectionHeading
   config/
-    site.ts                # reads env → typed siteConfig (name, contact, fares…)
+    site.json              # business constants: brand, contact, social, fares…
+    site.ts                # site.json (+ NEXT_PUBLIC_SITE_URL) → typed siteConfig
   i18n/
     config.ts              # locales, default, RTL, hreflang tags
     dictionaries.ts        # ALL translatable copy (en/fr/de/ar)
@@ -77,13 +81,16 @@ src/
 
 ## How to make common changes
 
-- **Company name / phone / email / address / social links** → edit `.env.local`
-  (copy from `.env.example`). Consumed via `src/config/site.ts`. Contact details
-  are intentionally *not* in the translation files — they are data, read from env
-  in every language (phone digits are converted to Arabic-Indic for `ar`).
-- **Fares / rates** → `NEXT_PUBLIC_RATE_*` in `.env.local`. The estimate is
-  `base + perMile × miles`. `ROAD_FACTOR` scales straight-line distance to
-  approximate driving distance; `AVG_SPEED_MPH` drives the ETA.
+- **Company name / phone / email / address / social links** → edit
+  `src/config/site.json` (`brand`, `contact`, `social`). Consumed via
+  `src/config/site.ts`. Contact details are intentionally *not* in the
+  translation files — they are data, read from JSON in every language (phone
+  digits are converted to Arabic-Indic for `ar`).
+- **Fares / rates** → `fares` in `src/config/site.json`. The estimate is
+  `base + perMile × miles`. `roadFactor` scales straight-line distance to
+  approximate driving distance; `avgSpeedMph` drives the ETA.
+- **Site URL per environment** → `NEXT_PUBLIC_SITE_URL` in `.env.local`
+  (overrides `url` in `site.json`). Genuine secrets also go in env, never JSON.
 - **Add/remove a served city** → `src/lib/cities.ts` (id, lat/lng, names per
   locale). It automatically appears in the calculator, marquee, coverage list,
   and structured data.
@@ -131,6 +138,7 @@ src/
 
 ## Deployment
 
-Set `NEXT_PUBLIC_SITE_URL` to the production origin (used for canonical/sitemap/
-OG absolute URLs) and provide the other `NEXT_PUBLIC_*` values, then
-`npm run build && npm run start` (or deploy to any Next.js host, e.g. Vercel).
+Set `NEXT_PUBLIC_SITE_URL` to the deployment origin (used for canonical/sitemap/
+OG absolute URLs; it overrides `url` in `site.json`), confirm the constants in
+`src/config/site.json`, then `npm run build && npm run start` (or deploy to any
+Next.js host, e.g. Vercel).

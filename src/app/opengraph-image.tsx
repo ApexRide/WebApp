@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { siteConfig } from "@/config/site";
 
-export const alt = `${siteConfig.companyName} — instant fixed-price taxis across Britain`;
+export const alt = `${siteConfig.companyName} — one fixed fare, no surge, across Greater Manchester`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -23,30 +23,24 @@ export default function OpengraphImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
-          <div
-            style={{
-              width: 64,
-              height: 64,
-              borderRadius: 18,
-              background: "#f23a2f",
-              transform: "rotate(45deg)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <div style={{ width: 18, height: 18, borderRadius: 4, background: "#fff" }} />
+          {/* The Apex Ride double-chevron mark. */}
+          <svg viewBox="0 0 100 100" width={76} height={76} fill="none">
+            <path d="M18 76 L50 44 L82 76" stroke="#FFB300" strokeWidth={13} strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M18 56 L50 24 L82 56" stroke="#F23A2F" strokeWidth={13} strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 14 }}>
+            <div style={{ fontSize: 44, fontWeight: 700, letterSpacing: -1 }}>{siteConfig.brandName}</div>
+            <div style={{ fontSize: 18, fontWeight: 500, letterSpacing: 8, color: "#ffc23a" }}>RIDE</div>
           </div>
-          <div style={{ fontSize: 40, fontWeight: 700, letterSpacing: -1 }}>{siteConfig.brandName}</div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          <div style={{ display: "flex", flexWrap: "wrap", fontSize: 76, fontWeight: 700, letterSpacing: -2, lineHeight: 1.05, maxWidth: 980 }}>
-            <span>Your fare,&nbsp;</span>
-            <span style={{ color: "#ff4b3e" }}>estimated instantly.</span>
+          <div style={{ display: "flex", flexWrap: "wrap", fontSize: 80, fontWeight: 700, letterSpacing: -2, lineHeight: 1.04, maxWidth: 980 }}>
+            <span>One fixed fare.&nbsp;</span>
+            <span style={{ color: "#ff4b3e" }}>No surge. Ever.</span>
           </div>
           <div style={{ fontSize: 30, color: "#a79e91", maxWidth: 820 }}>
-            Licensed UK private hire. Fixed prices, no surge, no surprises.
+            Premium private hire across Greater Manchester.
           </div>
         </div>
 

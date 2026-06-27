@@ -1,0 +1,50 @@
+{
+  "url": "https://www.apexride.co.uk",
+
+  "brand": {
+    "brandName": "APEX",
+    "companyName": "Apex Ride",
+    "legalName": "Apex Ride Ltd",
+    "foundingYear": 2016
+  },
+
+  "contact": {
+    "phone": "0800 123 4567",
+    "email": "ride@apexride.co.uk",
+    "address": "Apex House, 12 Whitworth Street",
+    "city": "Manchester",
+    "postcode": "M1 3AL",
+    "country": "GB",
+    "lat": 53.4763,
+    "lng": -2.236
+  },
+
+  "social": {
+    "twitter": "https://twitter.com/apexride",
+    "facebook": "https://facebook.com/apexride",
+    "instagram": "https://instagram.com/apexride",
+    "twitterHandle": "@apexride"
+  },
+
+  "defaults": {
+    "theme": "system",
+    "lang": "en",
+    "showCityMarquee": true
+  },
+
+  "currency": {
+    "code": "GBP",
+    "symbol": "£"
+  },
+
+  "fares": {
+    "tiers": [
+      { "id": "saloon", "base": 3.2, "perMile": 1.75, "seats": 4 },
+      { "id": "estate", "base": 3.8, "perMile": 2.05, "seats": 4 },
+      { "id": "mpv", "base": 4.6, "perMile": 2.45, "seats": 6 },
+      { "id": "executive", "base": 6.5, "perMile": 3.2, "seats": 4 }
+    ],
+    "roadFactor": 1.18,
+    "avgSpeedMph": 52
+  }
+}

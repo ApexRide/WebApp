@@ -17,20 +17,11 @@ export default function AppleIcon() {
           justifyContent: "center",
         }}
       >
-        <div
-          style={{
-            width: 96,
-            height: 96,
-            borderRadius: 26,
-            background: "#f23a2f",
-            transform: "rotate(45deg)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div style={{ width: 28, height: 28, borderRadius: 7, background: "#fff" }} />
-        </div>
+        {/* The Apex Ride double-chevron mark. */}
+        <svg viewBox="0 0 100 100" width={118} height={118} fill="none">
+          <path d="M18 74 L50 42 L82 74" stroke="#FFB300" strokeWidth={14} strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M18 54 L50 22 L82 54" stroke="#F23A2F" strokeWidth={14} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </div>
     ),
     size,

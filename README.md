@@ -22,7 +22,7 @@ private-hire (taxi) operator, built with **Next.js 14 (App Router)** and
 ## Quick start
 
 ```bash
-cp .env.example .env.local      # then edit the values
+cp .env.example .env.local      # set NEXT_PUBLIC_SITE_URL for your deployment
 npm install
 npm run dev                     # http://localhost:3000  (redirects to /en)
 ```
@@ -36,21 +36,32 @@ npm run start
 
 ## Configuration
 
-Everything you’ll routinely change is in `.env.local` (see `.env.example` for the
-full annotated list):
+Business constants live in **`src/config/site.json`** — plain public data you can
+edit without touching code. Sections:
+
+| Section | Purpose |
+| --- | --- |
+| `url` | Canonical production origin (canonical URLs, sitemap, OG tags) |
+| `brand` | `brandName`, `companyName`, `legalName`, `foundingYear` |
+| `contact` | Phone, email, address, city/postcode/country, lat/lng |
+| `social` | Profile links (used in JSON-LD `sameAs`) + `twitterHandle` |
+| `defaults` | `theme` (system/light/dark), `lang` (en/fr/de/ar), `showCityMarquee` |
+| `currency` | Code + symbol |
+| `fares` | Per-tier `base` / `perMile` / `seats`, plus `roadFactor` & `avgSpeedMph` |
+
+It's read through the typed accessor `src/config/site.ts` (`siteConfig`), which
+is safe to import from both server and client components.
+
+**Environment variables** are reserved for environment-specific or sensitive
+values (see `.env.example`):
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Production origin — used for canonical URLs, sitemap and OG tags |
-| `NEXT_PUBLIC_COMPANY_NAME`, `NEXT_PUBLIC_BRAND_NAME`, `NEXT_PUBLIC_LEGAL_NAME` | Identity |
-| `NEXT_PUBLIC_CONTACT_PHONE`, `NEXT_PUBLIC_CONTACT_EMAIL`, `NEXT_PUBLIC_OFFICE_*` | Contact details |
-| `NEXT_PUBLIC_SOCIAL_*` | Social profile links (used in JSON-LD `sameAs`) |
-| `NEXT_PUBLIC_RATE_<TIER>_BASE` / `_PER_MILE` / `_SEATS` | Fares per vehicle tier |
-| `NEXT_PUBLIC_ROAD_FACTOR`, `NEXT_PUBLIC_AVG_SPEED_MPH` | Estimate tuning |
-| `NEXT_PUBLIC_DEFAULT_THEME`, `NEXT_PUBLIC_DEFAULT_LANG` | Defaults |
+| `NEXT_PUBLIC_SITE_URL` | Where *this* deployment is hosted — overrides `url` in `site.json` (e.g. preview/staging). Falls back to `site.json` if unset. |
 
-> `NEXT_PUBLIC_*` values are inlined into the client bundle. That’s intentional —
-> this is all public marketing information. After changing env values, rebuild.
+> Secrets (API keys, booking tokens, analytics IDs) belong in env, never in
+> `site.json`. Variables **without** the `NEXT_PUBLIC_` prefix stay server-side.
+> After changing `site.json` or env values, rebuild.
 
 ## Project layout & deeper docs
 
